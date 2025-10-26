@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "task-1-postgresql"
+version = "0.1.0"
+description = "PostgreSQL database operations with Python"
+readme = "README.MD"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.8"
+psycopg2-binary = "^2.9.9"
+python-dotenv = "^1.0.0"
+faker = "^20.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+

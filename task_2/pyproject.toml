@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "task-2-mongodb-crud"
+version = "0.1.0"
+description = "MongoDB CRUD operations using PyMongo"
+readme = "README.MD"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pymongo = "^4.6.0"
+python-dotenv = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
