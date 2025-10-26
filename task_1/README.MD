@@ -4,9 +4,9 @@
 docker run -d \
   --name postgres_local \
   -p 5432:5432 \
-  -e POSTGRES_DB=postgres_db \
+  -e POSTGRES_DB=mydb \
   -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_PASSWORD=postgres_pass \
   -v postgres_data:/var/lib/postgresql/data \
   --restart unless-stopped \
   postgres:latest

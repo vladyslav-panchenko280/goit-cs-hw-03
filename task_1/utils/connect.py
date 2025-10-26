@@ -7,10 +7,10 @@ load_dotenv()
 def get_db_connection():
     """Create and return database connection"""
     return psycopg2.connect(
-        host=os.getenv('DB_HOST'),
-        database=os.getenv('DB_NAME'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD'),
-        port=os.getenv('DB_PORT')
+        host=os.getenv('POSTGRES_HOST'),
+        database=os.getenv('POSTGRES_DB'),
+        user=os.getenv('POSTGRES_USER'),
+        password=os.getenv('POSTGRES_PASSWORD'),
+        port=os.getenv('POSTGRES_PORT')
     )
 

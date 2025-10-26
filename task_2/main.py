@@ -14,7 +14,7 @@ class CatDatabase:
         mongo_host = os.getenv('MONGO_HOST', 'localhost')
         mongo_port = os.getenv('MONGO_PORT', '27017')
         mongo_username = os.getenv('MONGO_USERNAME', 'admin')
-        mongo_password = os.getenv('MONGO_PASSWORD', 'password')
+        mongo_password = os.getenv('MONGO_PASSWORD', 'admin_password')
         mongo_db = os.getenv('MONGO_DB', 'cats_db')
         mongo_collection = os.getenv('MONGO_COLLECTION', 'cats')
         
