@@ -1,4 +1,4 @@
-# Production FastAPI Microservice
+# Production FastAPI PostgreSQL stack
 
 Task Management REST API demonstrating production-ready practices: FastAPI framework, PostgreSQL database, Docker orchestration, Nginx reverse proxy, SQLAlchemy ORM, Alembic migrations, two-tier rate limiting, and comprehensive security features.
 
