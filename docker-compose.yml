@@ -1,0 +1,71 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: task_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-task_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - task_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./fast-api
+    container_name: task_api
+    volumes:
+      - ./fast-api/migrations/versions:/app/migrations/versions
+      - ./fast-api/app:/app/app
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_DB: ${POSTGRES_DB:-task_db}
+      RATE_LIMIT_CALLS: ${RATE_LIMIT_CALLS:-100}
+      RATE_LIMIT_PERIOD: ${RATE_LIMIT_PERIOD:-60}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - task_network
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        sleep 5 &&
+        echo 'Running migrations...' &&
+        alembic upgrade head &&
+        echo 'Starting API server...' &&
+        uvicorn app.main:app --host 0.0.0.0 --port 8000
+      "
+
+  nginx:
+    image: nginx:alpine
+    container_name: task_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - api
+    networks:
+      - task_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  task_network:
+    driver: bridge
+
